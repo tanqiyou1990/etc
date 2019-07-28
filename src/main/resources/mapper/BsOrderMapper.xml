@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tan.ec.mapper.BsOrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tan.ec.entity.BsOrder">
+        <id column="id" property="id" />
+        <result column="open_id" property="openId" />
+        <result column="order_type" property="orderType" />
+        <result column="batch_no" property="batchNo" />
+        <result column="pro_id" property="proId" />
+        <result column="pro_ico_url" property="proIcoUrl" />
+        <result column="pro_title" property="proTitle" />
+        <result column="pro_desc" property="proDesc" />
+        <result column="pro_img_url" property="proImgUrl" />
+        <result column="price" property="price" />
+        <result column="quantity" property="quantity" />
+        <result column="amount" property="amount" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="postal_id" property="postalId" />
+        <result column="send_flag" property="sendFlag" />
+        <result column="pay_flag" property="payFlag" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,order_type AS orderType, open_id AS openId, batch_no AS batchNo, pro_id AS proId, pro_ico_url AS proIcoUrl, pro_title AS proTitle, pro_desc AS proDesc, pro_img_url AS proImgUrl, price, quantity, amount, create_time AS createTime, update_time AS updateTime, postal_id AS postalId, send_flag AS sendFlag,pay_flag AS payFlag, del_flag AS delFlag
+    </sql>
+    <update id="payflag">
+        UPDATE
+        bs_order
+        SET
+        pay_flag = '1'
+        WHERE
+        batch_no = #{oid}
+    </update>
+    <select id="selectOrderPostal" resultType="java.util.HashMap">
+        SELECT
+        o.id,
+        o.order_type AS orderType,
+        o.open_id AS openId,
+        o.batch_no AS batchNo,
+        o.pro_id AS proId,
+        o.pro_ico_url AS proIcoUrl,
+        o.pro_title AS proTitle,
+        o.pro_desc AS proDesc,
+        o.pro_img_url AS proImgUrl,
+        o.price,
+        o.quantity,
+        o.amount,
+        o.create_time AS createTime,
+        o.update_time AS updateTime,
+        o.postal_id AS postalId,
+        o.send_flag AS sendFlag,
+        o.pay_flag AS payFlag,
+        o.del_flag AS delFlag,
+        p.id AS pid,
+        p.receive_name AS receiveName,
+        p.receive_tel AS receiveTel,
+        p.express_no AS expressNo
+        FROM
+        bs_order o INNER JOIN bs_postal_list p
+        ON
+        o.batch_no = p.batch_no AND p.del_flag = '0' AND o.del_flag = '0'
+        WHERE o.order_type = '1'
+    </select>
+
+    <select id="selectOrderActive" resultType="java.util.HashMap">
+        SELECT
+        o.id,
+        o.order_type AS orderType,
+        o.open_id AS openId,
+        o.batch_no AS batchNo,
+        o.pro_id AS proId,
+        o.pro_ico_url AS proIcoUrl,
+        o.pro_title AS proTitle,
+        o.pro_desc AS proDesc,
+        o.pro_img_url AS proImgUrl,
+        o.price,
+        o.quantity,
+        o.amount,
+        o.create_time AS createTime,
+        o.update_time AS updateTime,
+        o.postal_id AS postalId,
+        o.send_flag AS sendFlag,
+        o.pay_flag AS payFlag,
+        o.del_flag AS delFlag,
+        p.id AS pid,
+        p.name AS activeName,
+        p.company AS activeCompany,
+        p.job AS activeJob,
+        p.phone AS activePhone,
+        p.email AS activeEmail
+        FROM
+        bs_order o INNER JOIN bs_active_person p
+        ON
+        o.batch_no = p.batch_no AND p.del_flag = '0' AND o.del_flag = '0'
+        WHERE o.order_type = '2'
+    </select>
+
+</mapper>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tan.ec.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tan.ec.entity.SysUser">
+        <id column="id" property="id" />
+        <result column="roles" property="roles" />
+        <result column="introduction" property="introduction" />
+        <result column="avatar" property="avatar" />
+        <result column="name" property="name" />
+        <result column="user_id" property="userId" />
+        <result column="password" property="password" />
+        <result column="tel" property="tel" />
+        <result column="email" property="email" />
+        <result column="created_time" property="createdTime" />
+        <result column="updated_time" property="updatedTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, roles, introduction, avatar, name, user_id AS userId, password, tel, email, created_time AS createdTime, updated_time AS updatedTime, del_flag AS delFlag
+    </sql>
+
+</mapper>

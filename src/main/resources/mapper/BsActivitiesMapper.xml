@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tan.ec.mapper.BsActivitiesMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.tan.ec.entity.BsActivities">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="desc" property="desc" />
+        <result column="ico_url" property="icoUrl" />
+        <result column="img_url" property="imgUrl"/>
+        <result column="price" property="price" />
+        <result column="content" property="content" />
+        <result column="publish_flag" property="publishFlag" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="del_flag" property="delFlag" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, `desc`, ico_url AS icoUrl,img_url AS imgUrl, price, content, publish_flag AS publishFlag, create_time AS createTime, update_time AS updateTime, del_flag AS delFlag
+    </sql>
+    <select id="getLatest" resultType="com.tan.ec.entity.BsActivities">
+
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        bs_activities
+        WHERE del_flag = '0' AND publish_flag = '1'
+        ORDER BY create_time desc
+        limit 1
+    </select>
+
+</mapper>

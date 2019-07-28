@@ -1,0 +1,92 @@
+#配置数据库
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://39.100.114.144:3306/p_ec_dev?characterEncoding=utf8&useAffectedRows=true&useSSL=false&autoReconnect=true&failOverReadOnly=false&autoReconnectForPools=true
+    username: root
+    password: lskj@2019
+
+    #JDBC链接-线上主数据源
+    type: com.alibaba.druid.pool.DruidDataSource
+    # 连接池配置,下面配置说明请参考Druid Github Wiki，配置_DruidDataSource参考配置
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    # 配置获取连接等待超时的时间
+    maxWait: 60000
+    # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+    timeBetweenEvictionRunsMillis: 60000
+    # 配置一个连接在池中最小生存的时间，单位是毫秒
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    # 打开PSCache，并且指定每个连接上PSCache的大小
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+
+    jackson:
+      date-format: yyyy-MM-dd HH:mm:ss
+      time-zone: GMT+8
+
+  http:
+      multipart:
+        enabled: true
+        max-file-size: 3MB
+        max-request-size: 3MB
+
+#设置端口号  默认8080
+server:
+  address: 0.0.0.0
+  port: 4001
+
+# fastDFS 分布式文件系统
+fdfs:
+  file-host: http://39.100.114.144:8888/
+  tracker-list:
+    - 39.100.114.144:22122
+
+
+
+# 腾讯企业邮箱配置start
+mail_username: sys@vpubchain.org
+mail_password: JLchain999000
+# 腾讯企业邮箱配置end
+
+wxpay:
+  appID: wx17b58b1b0492cfe5
+  mchID: 1527594891
+  key: JL142b630c81ef38e4032f48ad8f6b66
+  sandboxKey: 4b83accdb328490c339ea5f6716af705
+  certPath: F://cert/apiclient_cert.p12
+  notifyUrl: https://paas.vpubchain.org/wxpay/notify
+  refundNotifyUrl: https://paas.vpubchain.org/wxpay/refund/notify
+  useSandbox: false
+
+#mybaits-plus配置，修改主键类型，mapper.xml、type 别名等
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  typeAliasesPackage: com.tan.ec.entity
+  global-config:
+    #主键类型  0:"数据库ID自增", 1:"用户输入ID",2:"全局唯一ID (数字类型唯一ID)", 3:"全局唯一ID UUID";
+    id-type: 0
+    #字段策略 0:"忽略判断",1:"非 NULL 判断"),2:"非空判断"
+    field-strategy: 1
+    #驼峰下划线转换
+    db-column-underline: true
+    #刷新mapper 调试神器
+    refresh-mapper: true
+    #数据库大写下划线转换
+    #capital-mode: true
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: true
+
+log:
+  level: DEBUG
+
+# 忽略的路径
+ignore:
+  urls:
+    - /admin/sysUser/login
